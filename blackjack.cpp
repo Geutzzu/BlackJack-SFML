@@ -223,7 +223,7 @@ public:
     }
 
     Font& getFont(const string& name) { /// functie care returneaza fontul
-    		return fonts.at(name);
+        return fonts.at(name);
     }
 
     void loadCardTextures(); /// functie care incarca texturile cartilor
@@ -269,12 +269,12 @@ void TextureManager::loadCardTextures() { /// functie care incarca texturile car
 }
 
 void TextureManager::loadFont(const string& name, const string& filename) { /// functie care incarca fontul
-	Font font;
+    Font font;
     if (!font.loadFromFile(filename)) {
-		cout << "Failed to load font: " + filename << endl;
-	}
-	else cout << "Loaded font: " + filename << endl;
-	fonts[name] = font;
+        cout << "Failed to load font: " + filename << endl;
+    }
+    else cout << "Loaded font: " + filename << endl;
+    fonts[name] = font;
 }
 
 void TextureManager::loadFonts() {
@@ -518,7 +518,8 @@ public:
     void setIsFaceUp(bool isFaceUp) { this->isFaceUp = isFaceUp; } /// setter pentru isFaceUp
     Texture* getTexture() { return this->texture; } /// getter pentru texture
     Sprite getSprite() { return this->sprite; } /// getter pentru sprite
-    float setScale(float scale) { this->scale = scale; 
+    float setScale(float scale) {
+        this->scale = scale;
         this->sprite.setScale(this->scale, this->scale); /// trebuie initializat pentru render 
     } /// setter pentru scale
     float getScale() { return this->scale; } /// getter pentru scale
@@ -631,10 +632,10 @@ Card::Card(Suit suit, Rank rank, bool isFaceUp) /// al doilea constructor cu par
 
     this->scale = 0.3;
 
-    if(!isFaceUp)
-		this->texture = &this->textureManager.getTexture("back");
-	else
-		this->initializeTexture();
+    if (!isFaceUp)
+        this->texture = &this->textureManager.getTexture("back");
+    else
+        this->initializeTexture();
 
 
 }
@@ -953,7 +954,7 @@ public:
     void renderText(RenderWindow& renderWindow); /// functie de render pentru text
     void hideText(); /// functie care ascunde textul
     bool containsAce(); /// daca contine un AS
-        
+
     static void textureManagerLoadFont(); /// functie care incarca fontul
 
 
@@ -989,7 +990,7 @@ public:
     bool getIsFinished() const { return this->isFinished; } /// getter pentru isFinished 
     void setPosition(Vector2f position) { this->position = position; } /// setter pentru position
     Vector2f getPosition() { return this->position; } /// getter pentru position
-    
+
 
     ~Hand() {
         /// nu avem nimic de sters
@@ -1018,10 +1019,10 @@ void Hand::textureManagerLoadFont() { /// functie care incarca fontul
 
 bool Hand::containsAce() { /// daca contine un AS
     for (Card card : this->cardsInHand) {
-		if (card.getRank() == ACE)
-			return true;
-	}
-	return false;
+        if (card.getRank() == ACE)
+            return true;
+    }
+    return false;
 }
 
 bool Hand::canSplit() { /// daca poti face split
@@ -1037,7 +1038,7 @@ void Hand::initializeText() {
 }
 
 void Hand::hideText() {
-	this->handText.setString("");
+    this->handText.setString("");
 }
 
 void Hand::updateText() {
@@ -1086,7 +1087,7 @@ void Hand::render(RenderWindow& renderWindow) {  /// functie de render
 
 void Hand::renderText(RenderWindow& renderWindow) { /// functie de render pentru text
     this->handText.setPosition(this->position + Vector2f(100 * this->cardsInHand.size() + 60, 0));
-    if(this->cardsInHand[0].getIsFaceUp())
+    if (this->cardsInHand[0].getIsFaceUp())
         renderWindow.draw(this->handText);
     else renderWindow.draw(Text());
 }
@@ -1118,7 +1119,7 @@ Hand::Hand(const Hand& a) : cardsInHand(a.cardsInHand), isBusted(a.isBusted), is
     this->position = a.position;
 
     this->initializeText();
-    
+
 }
 
 Hand& Hand::operator=(const Hand& a) { /// supraincarcare operator =
@@ -1615,9 +1616,9 @@ public:
     void clearHand() override; /// va fi diferita implementarea pentru dealer si player (playerul poate avea mai multe handuri)
 
     /// functii render
-    void renderHands(RenderWindow& renderWindow) override{ /// render pentru mana
-    		hand.setPosition(Vector2f(this->positionX, this->positionY));
-    		hand.render(renderWindow);
+    void renderHands(RenderWindow& renderWindow) override { /// render pentru mana
+        hand.setPosition(Vector2f(this->positionX, this->positionY));
+        hand.render(renderWindow);
     }
 
     /// afisare citire
@@ -1754,11 +1755,11 @@ public:
 
 void DealerPlayer::renderHands(RenderWindow& renderWindow) { /// render pentru maini
     for (int i = 0; i < hands.size(); i++) {
-		hands[i].setPosition(Vector2f(0, 100 * i) + Vector2f(this->positionX, this->positionY));  /// setam pozitia mainii
-		hands[i].render(renderWindow);
-	}
-	hand.setPosition(Vector2f(this->positionX, this->positionY + 100 * hands.size()));
-	hand.render(renderWindow);
+        hands[i].setPosition(Vector2f(0, 100 * i) + Vector2f(this->positionX, this->positionY));  /// setam pozitia mainii
+        hands[i].render(renderWindow);
+    }
+    hand.setPosition(Vector2f(this->positionX, this->positionY + 100 * hands.size()));
+    hand.render(renderWindow);
 }
 
 void DealerPlayer::initializeHand(GameDeck& gameDeck) { /// vom avea o mana initializata cu 2 carti
@@ -2212,15 +2213,15 @@ Game& Game::operator=(const Game& a) {
 
 
 void Game::initializeGame() { /// initializeaza jocul
-    
+
 
     for (Participant* participant : this->participants) { /// exemplu bun de polimorfism
         participant->initializeHand(gameDeck);
         if (dynamic_cast<Player*>(participant)) {
-			Player* player = dynamic_cast<Player*>(participant);
+            Player* player = dynamic_cast<Player*>(participant);
             player->setPositionX(100);
             player->setPositionY(350);
-		}
+        }
         else if (dynamic_cast<Dealer*>(participant)) {
             Dealer* dealer = dynamic_cast<Dealer*>(participant);
             dealer->setPositionX(100);
@@ -2429,7 +2430,7 @@ void Game::render(RenderWindow& renderWindow, bool playerHasBetted) { /// functi
     else {
         for (Participant* participant : this->participants) {
             participant->renderHands(renderWindow);
-            
+
         }
     }
 
